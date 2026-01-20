@@ -33,10 +33,7 @@ FloatChatAI combines multiple cutting-edge technologies to deliver intelligent o
 Before you begin, ensure you have:
 
 - **Python 3.10 or higher** ([Download Python](https://www.python.org/downloads/))
-- **PostgreSQL 13+** installed and running on port 5433 ([Download PostgreSQL](https://www.postgresql.org/download/))
-- **Google Gemini API Key** ([Get API Key](https://makersuite.google.com/app/apikey))
-- **4GB+ RAM** recommended
-- **Windows/Linux/Mac** operating system
+- **PostgreSQL 13+** installed ([Download PostgreSQL](https://www.postgresql.org/download/))
 
 ### Step 1: Clone or Download the Project
 
