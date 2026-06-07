@@ -6,14 +6,16 @@ from app.schemas.data_models import QueryRequest
 
 router = APIRouter()
 
-pipeline = QueryPipeline()
-
+pipeline = None
 
 @router.post("/demo-query")
 async def query_endpoint(payload: QueryRequest):
 
-    result = await pipeline.process(
-        payload.query
-    )
+    global pipeline
+
+    if pipeline is None:
+        pipeline = QueryPipeline()
+
+    result = await pipeline.process(payload.query)
 
     return result
