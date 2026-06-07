@@ -82,7 +82,7 @@ const ModelInner = ({
   const ext = useMemo(() => url ? url.split('.').pop().toLowerCase() : null, [url]);
   const content = useMemo(() => {
     if (!url) return null;
-    if (ext === 'glb' || ext === 'gltf') return useGLTF(url).scene.clone();
+    if (ext === 'glb' || ext === 'gltf') return ((useGLTF(url) as any).scene).clone();
     if (ext === 'fbx') return useFBX(url).clone();
     if (ext === 'obj') return useLoader(OBJLoader, url).clone();
     console.error('Unsupported format:', ext);
