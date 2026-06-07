@@ -151,7 +151,8 @@ export default function ChatPage() {
     const fetchResponse = async () => {
       setIsChatLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/demo-query', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${apiUrl}/demo-query`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
