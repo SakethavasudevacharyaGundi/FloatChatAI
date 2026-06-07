@@ -83,8 +83,8 @@ const ModelInner = ({
   const content = useMemo(() => {
     if (!url) return null;
     if (ext === 'glb' || ext === 'gltf') return ((useGLTF(url) as any).scene).clone();
-    if (ext === 'fbx') return useFBX(url).clone();
-    if (ext === 'obj') return useLoader(OBJLoader, url).clone();
+    if (ext === 'fbx') return (useFBX(url) as any).clone();
+    if (ext === 'obj') return (useLoader(OBJLoader, url) as any).clone();
     console.error('Unsupported format:', ext);
     return null;
   }, [url, ext]);
@@ -210,7 +210,7 @@ const ModelInner = ({
         sy = ly = e.clientY;
       } else if (pts.size === 2 && enableManualZoom) {
         mode = 'pinch';
-        const [p1, p2] = [...pts.values()];
+        const [p1, p2] = Array.from(pts.values()) as any[];
         startDist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
         startZ = camera.position.z;
         e.preventDefault();
@@ -250,7 +250,7 @@ const ModelInner = ({
         invalidate();
       } else if (mode === 'pinch' && pts.size === 2) {
         e.preventDefault();
-        const [p1, p2] = [...pts.values()];
+        const [p1, p2] = Array.from(pts.values()) as any[];
         const d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
         const ratio = startDist / d;
         camera.position.z = THREE.MathUtils.clamp(startZ * ratio, minZoom, maxZoom);
