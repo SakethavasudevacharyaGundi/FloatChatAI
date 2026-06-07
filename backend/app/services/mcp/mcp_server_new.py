@@ -19,10 +19,10 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Union
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend for Windows
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import matplotlib
+# matplotlib.use('Agg')  # Use non-interactive backend for Windows
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 from io import BytesIO
 import base64
 from plotly.utils import PlotlyJSONEncoder

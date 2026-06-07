@@ -30,7 +30,8 @@ class VectorStore:
 
         self.collection = (
             self.client.get_or_create_collection(
-                "ocean_docs"
+                name="ocean_docs",
+                embedding_function=None
             )
         )
 

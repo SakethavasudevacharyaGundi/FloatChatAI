@@ -34,15 +34,16 @@ except ImportError:
     PLOTLY_AVAILABLE = False
     logging.warning("Plotly not available - install with: pip install plotly")
 
-try:
-    import matplotlib.pyplot as plt
-    import matplotlib.dates as mdates
-    from matplotlib.colors import LinearSegmentedColormap
-    import seaborn as sns
-    MATPLOTLIB_AVAILABLE = True
-except ImportError:
-    MATPLOTLIB_AVAILABLE = False
-    logging.warning("Matplotlib not available - install with: pip install matplotlib seaborn")
+# try:
+#     import matplotlib.pyplot as plt
+#     import matplotlib.dates as mdates
+#     from matplotlib.colors import LinearSegmentedColormap
+#     import seaborn as sns
+#     MATPLOTLIB_AVAILABLE = True
+# except ImportError:
+#     MATPLOTLIB_AVAILABLE = False
+#     logging.warning("Matplotlib not available - install with: pip install matplotlib seaborn")
+MATPLOTLIB_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 

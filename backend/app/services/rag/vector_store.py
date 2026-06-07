@@ -46,15 +46,17 @@ class ArgoVectorStore:
             settings=Settings(anonymized_telemetry=False)
         )
         
-        # Create collections
+        # Create collections with explicit embedding_function=None to avoid sentence-transformers
         self.profiles_collection = self.client.get_or_create_collection(
             name="argo_profiles",
-            metadata={"description": "ARGO profile metadata and summaries"}
+            metadata={"description": "ARGO profile metadata and summaries"},
+            embedding_function=None
         )
         
         self.floats_collection = self.client.get_or_create_collection(
             name="argo_floats",
-            metadata={"description": "ARGO float metadata and summaries"}
+            metadata={"description": "ARGO float metadata and summaries"},
+            embedding_function=None
         )
     def search(self, query_text: str, n_results: int = 5, **kwargs):
         return self.query(query_text, n_results)
@@ -136,9 +138,14 @@ class ArgoVectorStore:
             }
             metadatas.append(metadata)
         
+        from app.services.vector.embedding_service import EmbeddingService
+        embed_svc = EmbeddingService()
+        embeds = embed_svc.embed_texts(documents)
+        
         self.profiles_collection.add(
             ids=ids,
             documents=documents,
+            embeddings=embeds,
             metadatas=metadatas
         )
         
@@ -169,9 +176,14 @@ class ArgoVectorStore:
             }
             metadatas.append(metadata)
         
+        from app.services.vector.embedding_service import EmbeddingService
+        embed_svc = EmbeddingService()
+        embeds = embed_svc.embed_texts(documents)
+        
         self.floats_collection.add(
             ids=ids,
             documents=documents,
+            embeddings=embeds,
             metadatas=metadatas
         )
         
@@ -185,8 +197,12 @@ class ArgoVectorStore:
                 if key in ["region", "has_oxygen", "has_chlorophyll", "has_nitrate", "has_ph"]:
                     where_clause[key] = value
         
+        from app.services.vector.embedding_service import EmbeddingService
+        embed_svc = EmbeddingService()
+        query_embed = embed_svc.embed_query(query)
+        
         results = self.profiles_collection.query(
-            query_texts=[query],
+            query_embeddings=[query_embed],
             n_results=n_results,
             where=where_clause if where_clause else None
         )
@@ -201,8 +217,12 @@ class ArgoVectorStore:
                 if key in ["status", "region", "institution", "country"]:
                     where_clause[key] = value
         
+        from app.services.vector.embedding_service import EmbeddingService
+        embed_svc = EmbeddingService()
+        query_embed = embed_svc.embed_query(query)
+        
         results = self.floats_collection.query(
-            query_texts=[query],
+            query_embeddings=[query_embed],
             n_results=n_results,
             where=where_clause if where_clause else None
         )
@@ -258,8 +278,12 @@ class ArgoVectorStore:
         """List a sample of profiles from the vector store (approximate)."""
         try:
             count = max(1, min(limit, self.profiles_collection.count()))
+            from app.services.vector.embedding_service import EmbeddingService
+            embed_svc = EmbeddingService()
+            query_embed = embed_svc.embed_query("ARGO profile")
+            
             results = self.profiles_collection.query(
-                query_texts=["ARGO profile"],
+                query_embeddings=[query_embed],
                 n_results=count
             )
             return self._format_search_results(results)
@@ -270,8 +294,12 @@ class ArgoVectorStore:
         """List a sample of floats from the vector store (approximate)."""
         try:
             count = max(1, min(limit, self.floats_collection.count()))
+            from app.services.vector.embedding_service import EmbeddingService
+            embed_svc = EmbeddingService()
+            query_embed = embed_svc.embed_query("ARGO float")
+            
             results = self.floats_collection.query(
-                query_texts=["ARGO float"],
+                query_embeddings=[query_embed],
                 n_results=count
             )
             return self._format_search_results(results)
