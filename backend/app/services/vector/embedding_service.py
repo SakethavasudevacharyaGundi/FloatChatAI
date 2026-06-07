@@ -13,8 +13,10 @@ class EmbeddingService:
         #         "all-MiniLM-L6-v2"
         #     )
         # )
-        if config.GOOGLE_API_KEY:
-            genai.configure(api_key=config.GOOGLE_API_KEY)
+        import os
+        api_key = config.GOOGLE_API_KEY or os.getenv("GEMINI_KEY_1") or os.getenv("GEMINI_KEY_2")
+        if api_key:
+            genai.configure(api_key=api_key)
         self.model_name = "models/text-embedding-004" # Using modern Gemini embedding model
 
     def embed_texts(
