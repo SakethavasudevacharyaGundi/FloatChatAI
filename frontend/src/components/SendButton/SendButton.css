@@ -1,0 +1,80 @@
+.orbit-send-button {
+  --plane: #ffffff;
+  --background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: none;
+  padding: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--background);
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  perspective: 400px;
+}
+
+.orbit-send-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.orbit-send-button:active {
+  transform: scale(0.95);
+}
+
+.orbit-send-button svg.plane {
+  z-index: 3;
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: var(--plane);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.2s ease;
+}
+
+.orbit-send-button:hover svg.plane {
+  transform: translate3d(2px, -2px, 0);
+}
+
+.orbit-send-button.active svg.plane {
+  animation: 1.5s orbit alternate linear;
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate3d(1, 0, 0, 0deg) translateZ(40px) scale3d(1, 1, 1);
+    animation-timing-function: ease-in;
+  }
+  10% {
+    z-index: 3;
+    transform: rotate3d(1, 0.6, 0, -10deg) translateZ(40px) scale3d(1, 1, 1);
+    animation-timing-function: ease-out;
+  }
+  20% {
+    z-index: 3;
+    transform: rotate3d(1, 0.6, 0, 30deg) translateZ(40px) scale3d(1, 1, 1);
+    animation-timing-function: ease-out;
+  }
+  30% {
+    z-index: 3;
+    transform: rotate3d(1, 0.6, 0, 35deg) translateZ(40px) scale3d(1, 1, 1);
+  }
+  40% {
+    z-index: 1;
+    transform: rotate3d(1, 0.6, 0, 120deg) translateZ(40px) scale3d(0.7, 0.7, 1);
+  }
+  70% {
+    z-index: 1;
+    transform: rotate3d(1, 0.6, 0, 240deg) translateZ(40px) scale3d(0.7, 0.7, 1);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    z-index: 3;
+    transform: rotate3d(1, 0, 0, 360deg) translateZ(40px) scale3d(1, 1, 1);
+  }
+}
