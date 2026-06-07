@@ -29,7 +29,7 @@ const HEADINGS = [
   "Ask me anything about Argo!"
 ];
 
-export function AppSidebar() {
+function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
