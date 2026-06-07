@@ -106,7 +106,7 @@ function AutoBind(self: any, { include, exclude }: any = {}) {
         properties.add([object, key]);
       }
     } while ((object = Reflect.getPrototypeOf(object)) && object !== Object.prototype);
-    return properties;
+    return Array.from(properties) as any[];
   };
 
   const filter = (key: any) => {
