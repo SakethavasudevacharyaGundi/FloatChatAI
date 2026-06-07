@@ -7,45 +7,44 @@ from app.core.config import config
 class EmbeddingService:
 
     def __init__(self):
-
-        # self.model = (
-        #     SentenceTransformer(
-        #         "all-MiniLM-L6-v2"
-        #     )
-        # )
         import os
-        api_key = config.GOOGLE_API_KEY or os.getenv("GEMINI_KEY_1") or os.getenv("GEMINI_KEY_2")
-        if api_key:
-            genai.configure(api_key=api_key)
-        self.model_name = "models/gemini-embedding-2" # Using latest supported Gemini embedding model
+        self.keys = [
+            os.getenv("GEMINI_KEY_1"),
+            os.getenv("GEMINI_KEY_2"),
+            os.getenv("GEMINI_KEY_3"),
+            os.getenv("GEMINI_KEY_4"),
+            os.getenv("GEMINI_KEY_5"),
+            os.getenv("GEMINI_KEY_6"),
+            config.GOOGLE_API_KEY
+        ]
+        self.keys = [key for key in self.keys if key]
+        self.current_index = 0
+        if not self.keys:
+            print("WARNING: No Gemini API keys found!")
+            
+        self.model_name = "models/gemini-embedding-2"
 
-    def embed_texts(
-        self,
-        texts
-    ):
-        
-        # return self.model.encode(
-        #     texts
-        # ).tolist()
-        result = genai.embed_content(
-            model=self.model_name,
-            content=texts,
-            task_type="retrieval_document"
-        )
-        # Returns a dict where 'embedding' is a list of lists if multiple texts
-        return result['embedding']
+    def _execute_with_rotation(self, content, task_type):
+        last_error = None
+        for _ in range(len(self.keys)):
+            api_key = self.keys[self.current_index]
+            self.current_index = (self.current_index + 1) % len(self.keys)
+            try:
+                genai.configure(api_key=api_key)
+                result = genai.embed_content(
+                    model=self.model_name,
+                    content=content,
+                    task_type=task_type
+                )
+                return result['embedding']
+            except Exception as e:
+                print(f"Embedding key failed: {e}")
+                last_error = e
+                continue
+        raise Exception(f"All Gemini keys failed during embedding: {last_error}")
 
-    def embed_query(
-        self,
-        query
-    ):
+    def embed_texts(self, texts):
+        return self._execute_with_rotation(texts, "retrieval_document")
 
-        # return self.model.encode(
-        #     query
-        # ).tolist()
-        result = genai.embed_content(
-            model=self.model_name,
-            content=query,
-            task_type="retrieval_query"
-        )
-        return result['embedding']
+    def embed_query(self, query):
+        return self._execute_with_rotation(query, "retrieval_query")
