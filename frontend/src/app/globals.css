@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Pacifico&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap');
 
 :root {
   --bg-color: #0a0a0f;
@@ -335,7 +335,10 @@ nav {
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
   color: #a0a0b0;
   margin-top: 2rem;
   max-width: 700px;
