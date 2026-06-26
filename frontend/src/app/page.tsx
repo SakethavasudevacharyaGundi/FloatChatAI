@@ -202,9 +202,9 @@ export default function Home() {
       bgColor: "rgba(0, 0, 0, 0.03)", 
       textColor: navTextColor,
       links: [
-        { label: "Argo Project", href: "#section-2", ariaLabel: "Learn about Argo" },
-        { label: "Open Source", href: "#section-3", ariaLabel: "Open Source Data" },
-        { label: "Developer", href: "#section-4", ariaLabel: "About Developer" }
+        { label: "Argo Project", href: "https://www.noaa.gov/", ariaLabel: "Learn about Argo" },
+        { label: "Open Source", href: "https://github.com/NOAA", ariaLabel: "Open Source Data" },
+        { label: "Developer", href: "https://github.com/SakethavasudevacharyaGundi", ariaLabel: "About Developer" }
       ]
     }
   ];
