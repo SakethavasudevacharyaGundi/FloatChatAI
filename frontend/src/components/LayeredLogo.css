@@ -1,0 +1,47 @@
+.layered-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  z-index: 10;
+  width: 100%;
+}
+
+.layered-text {
+  position: relative;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 6rem;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--mouseY, 0) * -25deg)) rotateY(calc(var(--mouseX, 0) * 25deg));
+  transition: transform 0.1s ease-out;
+  cursor: none;
+}
+
+.layered-text .layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+}
+
+.layered-text .layer-front {
+  position: relative;
+  color: #1a1a1a;
+  transform: translateZ(50px);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.layered-text .layer-5 { color: #ff79c6; transform: translateZ(40px); }
+.layered-text .layer-4 { color: #f1fa8c; transform: translateZ(30px); }
+.layered-text .layer-3 { color: #50fa7b; transform: translateZ(20px); }
+.layered-text .layer-2 { color: #8be9fd; transform: translateZ(10px); }
+.layered-text .layer-1 { color: #ff5555; transform: translateZ(0px); }
+
+@media (max-width: 900px) {
+  .layered-text {
+    font-size: 4rem;
+  }
+}
